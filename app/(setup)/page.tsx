@@ -3,8 +3,18 @@ import { initialProfile } from "@/lib/initial-profile";
 import { redirect } from "next/navigation";
 import React from "react";
 
+interface ProfileType {
+  name: string;
+  id: string;
+  userId: string;
+  imageUrl: string;
+  email: string;
+  createdAt: Date;
+  updatedAt: Date;
+  [key: string]: any;
+}
 async function SetupPage() {
-  const profile = await initialProfile();
+  const profile = (await initialProfile()) as ProfileType;
 
   const server = await db.server.findFirst({
     where: {
