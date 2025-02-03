@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/providers/theme-providers";
 import { cn } from "@/lib/utils";
+import { ModalProvider } from "@/components/providers/modal-provider";
 
 const geistSans = Open_Sans({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
             storageKey="chathub-theme"
             enableSystem={false}
           >
+            <ModalProvider />
             {children}
           </ThemeProvider>
         </body>
