@@ -38,6 +38,7 @@ const formSchema = z.object({
 
 export const CreateServerModal = () => {
   const { isOpen, onClose, onOpen, type } = useModal();
+  const router = useRouter();
 
   const isModalOpen = isOpen && type === "createServer";
 
@@ -55,7 +56,8 @@ export const CreateServerModal = () => {
     try {
       const res = await axios.post("/api/servers", values);
       const server = await res.data;
-      console.log(server);
+      router.refresh();
+      onClose();
 
       form.reset();
     } catch (error) {
