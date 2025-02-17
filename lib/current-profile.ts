@@ -1,4 +1,3 @@
-import { useAuth } from "@clerk/nextjs";
 import { db } from "./db";
 import { auth } from "@clerk/nextjs/server";
 
