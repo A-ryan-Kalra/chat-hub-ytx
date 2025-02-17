@@ -6,8 +6,8 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
-import { DialogTitle } from "@radix-ui/react-dialog";
 import qs from "query-string";
 import { useModal } from "../../hooks/use-modal-store";
 
@@ -55,6 +55,28 @@ export const MembersModal = () => {
   const isModalOpen = isOpen && type === "members";
   const router = useRouter();
 
+  const onKick = async (memberId: string) => {
+    try {
+      setLoadingId(memberId);
+      const url = qs.stringifyUrl({
+        url: `/api/members/${memberId}`,
+        query: {
+          serverId: server?.id,
+        },
+      });
+
+      const response = await axios.delete(url);
+
+      router.refresh();
+
+      onOpen("members", { server: response.data });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoadingId("");
+    }
+  };
+
   const onRoleChange = async (memberId: string, role: MemberRole) => {
     try {
       setLoadingId(memberId);
@@ -62,11 +84,11 @@ export const MembersModal = () => {
         url: `/api/members/${memberId}`,
         query: {
           serverId: server?.id,
-          memberId,
         },
       });
 
       const response = await axios.patch(url, { role });
+      console.log(response);
       router.refresh();
       onOpen("members", { server: response.data });
     } catch (error) {
@@ -101,7 +123,7 @@ export const MembersModal = () => {
               {server.profileId !== member.profileId &&
                 loadingId !== member.id && (
                   <div className="ml-auto">
-                    <DropdownMenu>
+                    <DropdownMenu modal={false}>
                       <DropdownMenuTrigger>
                         <MoreVertical className="h-4 w-4 text-zinc-500" />
                       </DropdownMenuTrigger>
@@ -112,7 +134,7 @@ export const MembersModal = () => {
                             <span>Role</span>
                           </DropdownMenuSubTrigger>
                           <DropdownMenuPortal>
-                            <DropdownMenuSubContent>
+                            <DropdownMenuSubContent className="">
                               <DropdownMenuItem
                                 onClick={() => onRoleChange(member.id, "GUEST")}
                                 className="flex items-center"
@@ -140,7 +162,10 @@ export const MembersModal = () => {
                           </DropdownMenuPortal>
                         </DropdownMenuSub>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="flex  items-center">
+                        <DropdownMenuItem
+                          onClick={() => onKick(member.id)}
+                          className="flex  items-center cursor-pointer"
+                        >
                           <Gavel className="w-4 h-4 mr-2" /> Kick
                         </DropdownMenuItem>
                       </DropdownMenuContent>
