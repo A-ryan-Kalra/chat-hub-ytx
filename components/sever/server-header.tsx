@@ -31,7 +31,7 @@ function ServerHeader({ role, server }: ServerHeaderProps) {
   const isModerator = isAdmin || role === MemberRole.MODERATOR;
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="focus:outline-none">
         <button className="w-full font-semibold px-3 flex items-center  h-12 border-neutral-200 dark:border-neutral-800 border-b-2 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition">
           {server.name}
