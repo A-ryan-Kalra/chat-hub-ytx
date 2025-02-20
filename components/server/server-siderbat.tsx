@@ -10,6 +10,7 @@ import { Hash, Mic, ShieldCheck, Video } from "lucide-react";
 import { Separator } from "../ui/separator";
 import ServerSection from "./server-section";
 import ServerChannel from "./server-channel";
+import ServerMembers from "./server-member";
 
 interface ServerSideProps {
   serverId: string;
@@ -133,7 +134,62 @@ async function ServerSidebar({ serverId }: ServerSideProps) {
               label={"Text Channels"}
             />
             {textChannels.map((channel) => (
-              <ServerChannel />
+              <ServerChannel
+                key={channel?.id}
+                channel={channel}
+                role={role}
+                server={server}
+              />
+            ))}
+          </div>
+        )}
+        {!!audoChannels?.length && (
+          <div className="mb-2">
+            <ServerSection
+              sectionType={"channels"}
+              channelType={ChannelType.AUDIO}
+              role={role}
+              label={"Voice Channels"}
+            />
+            {audoChannels.map((channel) => (
+              <ServerChannel
+                key={channel?.id}
+                channel={channel}
+                role={role}
+                server={server}
+              />
+            ))}
+          </div>
+        )}
+        {!!videoChannels?.length && (
+          <div className="mb-2">
+            <ServerSection
+              sectionType={"channels"}
+              channelType={ChannelType.VIDEO}
+              role={role}
+              label={"Video Channels"}
+            />
+            {videoChannels.map((channel) => (
+              <ServerChannel
+                key={channel?.id}
+                channel={channel}
+                role={role}
+                server={server}
+              />
+            ))}
+          </div>
+        )}
+        {!!members?.length && (
+          <div className="mb-2">
+            <ServerSection
+              sectionType={"members"}
+              channelType={ChannelType.VIDEO}
+              role={role}
+              label={"Members"}
+              server={server}
+            />
+            {members.map((member) => (
+              <ServerMembers key={member.id} member={member} server={server} />
             ))}
           </div>
         )}
