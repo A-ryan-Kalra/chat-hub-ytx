@@ -10,7 +10,6 @@ export const config = {
 };
 
 const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
-  console.log("TRIGGERRRRRRRRRRRRRRRRRRRRRRRRRR");
   if (!res?.socket?.server?.io) {
     const path = "/api/socket/io";
     const httpServer: NetServer = res.socket.server as any;
