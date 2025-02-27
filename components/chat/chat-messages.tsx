@@ -7,6 +7,7 @@ import { useChatQuery } from "@/hooks/use-chat-query";
 import { Loader2, ServerCrash } from "lucide-react";
 import ChatItem from "./chat-item";
 import { format } from "date-fns";
+import { useChatSocket } from "@/hooks/use-chat-socket";
 type MessageWithMemberWithProfile = Message & {
   member: Member & {
     profile: Profile;
@@ -38,6 +39,10 @@ function ChatMessages({
   type,
 }: ChatMessagesProps) {
   const queryKey = `chat:${chatId}`;
+  const addKey = `chat:${chatId}:messages`;
+  const updateKey = `chat:${chatId}:messages:update`;
+
+  useChatSocket({ queryKey, addKey, updateKey });
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({ queryKey, apiUrl, paramKey, paramValue });
 
@@ -62,7 +67,7 @@ function ChatMessages({
       </div>
     );
   }
-  console.log(data);
+  // console.log(data);
   return (
     <div className="flex flex-1 h-full flex-col py-4 overflow-y-auto">
       <div className="flex-1"></div>
