@@ -20,7 +20,7 @@ export const useChatSocket = ({
   updateKey,
   queryKey,
 }: ChatSocketProps) => {
-  const { socket } = useSocket();
+  const { socket, isConnected } = useSocket();
   const queryCLient = useQueryClient();
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export const useChatSocket = ({
 
         return {
           ...oldData,
-          newData,
+          pages: newData,
         };
       });
     });
@@ -65,6 +65,7 @@ export const useChatSocket = ({
           ...newData[0],
           items: [message, ...newData[0].items],
         };
+
         return {
           ...oldData,
           pages: newData,
@@ -76,5 +77,5 @@ export const useChatSocket = ({
       socket.off(addKey);
       socket.off(updateKey);
     };
-  }, [queryCLient, addKey, updateKey, queryKey, socket]);
+  }, [queryCLient, addKey, updateKey, queryKey, socket, isConnected]);
 };
