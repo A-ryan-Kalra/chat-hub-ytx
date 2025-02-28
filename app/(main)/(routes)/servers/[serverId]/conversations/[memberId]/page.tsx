@@ -9,16 +9,18 @@ import { RedirectToSignIn } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import React from "react";
 interface MemberPageProps {
-  params: {
+  params: Promise<{
     memberId: string;
     serverId: string;
-  };
-  searchParams: {
+  }>;
+  searchParams: Promise<{
     video?: boolean;
-  };
+  }>;
 }
 async function MemberIdPage({ params, searchParams }: MemberPageProps) {
   const profile = await currentProfile();
+  const paramsResolved = await params;
+  const searchParamsResolved = await searchParams;
 
   if (!profile) {
     return RedirectToSignIn({});
@@ -26,7 +28,7 @@ async function MemberIdPage({ params, searchParams }: MemberPageProps) {
 
   const currentMember = await db.member.findFirst({
     where: {
-      serverId: params.serverId,
+      serverId: paramsResolved.serverId,
       profileId: profile.id,
     },
     include: {
@@ -40,11 +42,11 @@ async function MemberIdPage({ params, searchParams }: MemberPageProps) {
 
   const conversation = await getorCreateConversation(
     currentMember.id,
-    params.memberId
+    paramsResolved.memberId
   );
 
   if (!conversation) {
-    return redirect(`/servers/${params.serverId}`);
+    return redirect(`/servers/${paramsResolved.serverId}`);
   }
   const { memberOne, memberTwo } = conversation;
 
@@ -56,13 +58,13 @@ async function MemberIdPage({ params, searchParams }: MemberPageProps) {
       <ChatHeader
         imageUrl={otherMember.profile.imageUrl}
         name={otherMember.profile.name}
-        serverId={params.serverId}
+        serverId={paramsResolved.serverId}
         type={"conversation"}
       />
-      {searchParams.video && (
+      {searchParamsResolved.video && (
         <MediaRoom chatId={conversation.id} video={true} audio={true} />
       )}
-      {!searchParams.video && (
+      {!searchParamsResolved.video && (
         <>
           <div className="flex-1 overflow-y-auto">
             <ChatMessages

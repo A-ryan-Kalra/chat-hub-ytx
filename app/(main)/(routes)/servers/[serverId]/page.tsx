@@ -4,13 +4,14 @@ import { RedirectToSignIn } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 interface ServerIdPageProps {
-  params: {
+  params: Promise<{
     serverId: string;
-  };
+  }>;
 }
 
 async function ServerIdPage({ params }: ServerIdPageProps) {
   const profile = await currentProfile();
+  const paramsResolved = await params;
 
   if (!profile) {
     return RedirectToSignIn({ redirectUrl: "/sign-in" });
@@ -18,7 +19,7 @@ async function ServerIdPage({ params }: ServerIdPageProps) {
 
   const server = await db.server.findUnique({
     where: {
-      id: params.serverId,
+      id: paramsResolved.serverId,
       members: {
         some: {
           profileId: profile.id,
@@ -42,7 +43,9 @@ async function ServerIdPage({ params }: ServerIdPageProps) {
   if (initialChannel?.name !== "general") {
     return null;
   }
-  return redirect(`/servers/${params.serverId}/channels/${initialChannel?.id}`);
+  return redirect(
+    `/servers/${paramsResolved.serverId}/channels/${initialChannel?.id}`
+  );
 }
 
 export default ServerIdPage;

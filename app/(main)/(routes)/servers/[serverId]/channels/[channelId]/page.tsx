@@ -10,14 +10,15 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 interface ChannelIdPageProps {
-  params: {
+  params: Promise<{
     serverId: string;
     channelId: string;
-  };
+  }>;
 }
 
 async function ChannelIdPage({ params }: ChannelIdPageProps) {
   const profile = await currentProfile();
+  const paramsResolved = await params;
 
   if (!profile) {
     return RedirectToSignIn({});
@@ -25,13 +26,13 @@ async function ChannelIdPage({ params }: ChannelIdPageProps) {
 
   const channel = await db.channel.findUnique({
     where: {
-      id: params.channelId,
+      id: paramsResolved.channelId,
     },
   });
 
   const member = await db.member.findFirst({
     where: {
-      serverId: params.serverId,
+      serverId: paramsResolved.serverId,
       profileId: profile.id,
     },
   });
