@@ -79,7 +79,7 @@ function ChatItem({
     form.reset({
       content,
     });
-  }, [content]);
+  }, [content, form]);
 
   const isLoading = form.formState.isSubmitting;
 

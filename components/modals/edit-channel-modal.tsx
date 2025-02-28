@@ -23,7 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useModal } from "../../hooks/use-modal-store";
 import { ChannelType } from "@prisma/client";
 import {
@@ -67,7 +67,7 @@ export const EditChanelModal = () => {
       form.setValue("name", channel.name);
       form.setValue("type", channel?.type);
     }
-  }, [form]);
+  }, [form, channel]);
 
   const isLoading = form.formState.isSubmitting;
 
