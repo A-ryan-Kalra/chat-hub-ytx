@@ -49,7 +49,7 @@ const formSchema = z.object({
 });
 
 export const CreateChanelModal = () => {
-  const { isOpen, onClose, onOpen, type, data } = useModal();
+  const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
   const params = useParams();
   const { channelType } = data;
@@ -81,8 +81,8 @@ export const CreateChanelModal = () => {
           serverId: params?.serverId,
         },
       });
-      const res = await axios.post(url, values);
-      const server = await res.data;
+      await axios.post(url, values);
+
       router.refresh();
       onClose();
 

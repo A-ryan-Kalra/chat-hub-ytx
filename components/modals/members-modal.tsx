@@ -4,14 +4,12 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import qs from "query-string";
 import { useModal } from "../../hooks/use-modal-store";
 
-import { useOrigin } from "@/hooks/use-origin";
 import { ServerWithMembersWithProfiles } from "@/types";
 import { ScrollArea } from "../ui/scroll-area";
 import UserAvatar from "../ui/user-avatar";
@@ -49,7 +47,7 @@ const roleIconMap = {
 
 export const MembersModal = () => {
   const { isOpen, onClose, onOpen, type, data } = useModal();
-  const origin = useOrigin();
+
   const { server } = data as { server: ServerWithMembersWithProfiles };
   const [loadingId, setLoadingId] = useState("");
   const isModalOpen = isOpen && type === "members";

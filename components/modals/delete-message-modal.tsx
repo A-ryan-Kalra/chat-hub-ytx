@@ -14,11 +14,11 @@ import { Button } from "../ui/button";
 
 import { useState } from "react";
 import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import queryString from "query-string";
 
 export const DeleteMessageModal = () => {
-  const { isOpen, onClose, onOpen, type, data } = useModal();
+  const { isOpen, onClose, type, data } = useModal();
   const { apiUrl, query } = data;
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();

@@ -38,7 +38,7 @@ const formSchema = z.object({
 });
 
 export const EditServerModal = () => {
-  const { isOpen, onClose, onOpen, type, data } = useModal();
+  const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
   const { server } = data;
   const isModalOpen = isOpen && type === "editServer";
@@ -55,8 +55,8 @@ export const EditServerModal = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const res = await axios.patch(`/api/servers/${server?.id}`, values);
-      const data = await res.data;
+      await axios.patch(`/api/servers/${server?.id}`, values);
+
       router.refresh();
       onClose();
 

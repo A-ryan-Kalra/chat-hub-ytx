@@ -17,7 +17,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 export const LeaveServerModal = () => {
-  const { isOpen, onClose, onOpen, type, data } = useModal();
+  const { isOpen, onClose, type, data } = useModal();
   const { server } = data;
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();

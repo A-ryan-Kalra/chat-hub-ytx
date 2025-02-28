@@ -4,7 +4,7 @@ import { useSocket } from "./providers/socket-provider";
 import { Badge } from "./ui/badge";
 
 function SocketIndicator() {
-  const { isConnected, socket } = useSocket();
+  const { isConnected } = useSocket();
 
   if (!isConnected) {
     return (

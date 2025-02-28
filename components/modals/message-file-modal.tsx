@@ -29,7 +29,7 @@ const formSchema = z.object({
 });
 
 export const MessageFileModal = () => {
-  const { data, isOpen, onClose, onOpen, type } = useModal();
+  const { data, isOpen, onClose, type } = useModal();
 
   const router = useRouter();
   const isModalOpen = isOpen && type === "messageFile";
@@ -50,8 +50,7 @@ export const MessageFileModal = () => {
         url: apiUrl || "",
         query,
       });
-      const res = await axios.post(url, { ...values, content: values.fileUrl });
-      const server = await res.data;
+      await axios.post(url, { ...values, content: values.fileUrl });
 
       router.refresh();
       handleClose();
