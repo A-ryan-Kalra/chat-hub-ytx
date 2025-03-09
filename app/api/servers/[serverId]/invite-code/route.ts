@@ -9,7 +9,7 @@ export async function PATCH(
 ) {
   try {
     const profile = await currentProfile();
-    const serverId = req.nextUrl.pathname.split("/").pop(); //
+    const serverId = req.nextUrl.pathname.split("/")[3]; //
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
