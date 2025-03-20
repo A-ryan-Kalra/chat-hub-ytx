@@ -51,7 +51,7 @@ export const useChatScroll = ({
       const distanceFromBottom =
         topDiv.scrollHeight - topDiv.scrollTop - topDiv.clientHeight;
 
-      return distanceFromBottom <= 100;
+      return distanceFromBottom >= 50;
     };
     if (shouldAutoScroll()) {
       setTimeout(() => {
@@ -60,5 +60,5 @@ export const useChatScroll = ({
         });
       }, 100);
     }
-  }, [bottomRef, chatRef, hasInitialized]);
+  }, [bottomRef, chatRef, hasInitialized, count]);
 };

@@ -24,7 +24,7 @@ export default async function handler(
     }
 
     if (!conversationId) {
-      return res.status(400).json({ error: "Server Id missing" });
+      return res.status(400).json({ error: "Conversation Id missing" });
     }
 
     const conversation = await db.conversation.findFirst({
