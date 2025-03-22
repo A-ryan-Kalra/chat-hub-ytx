@@ -13,7 +13,7 @@ async function InviteCode({ params }: InviteCodeProps) {
   if (!profile) {
     return redirect("/sign-in");
   }
-  console.log("first");
+
   if (!paramsResolved.inviteCode) {
     return redirect("/");
   }
