@@ -44,14 +44,6 @@ function ChatMessages({
   const updateKey = `chat:${chatId}:messages:update`;
   const [isMounted, setIsmounted] = useState(false);
 
-  useEffect(() => {
-    setIsmounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null;
-  }
-
   useChatSocket({ queryKey, addKey, updateKey });
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({ queryKey, apiUrl, paramKey, paramValue });
@@ -66,6 +58,14 @@ function ChatMessages({
     shouldLoadMore: !isFetchingNextPage && !!hasNextPage,
     count: data?.pages?.[0]?.items?.length ?? 0,
   });
+
+  useEffect(() => {
+    setIsmounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
 
   if (status === "pending") {
     return (
