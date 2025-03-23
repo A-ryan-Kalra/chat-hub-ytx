@@ -1,7 +1,7 @@
 "use client";
 
 import { Member, Message, Profile } from "@prisma/client";
-import React, { Fragment, useRef } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import ChatWelcome from "./chat-welcome";
 import { useChatQuery } from "@/hooks/use-chat-query";
 import { Loader2, ServerCrash } from "lucide-react";
@@ -42,6 +42,15 @@ function ChatMessages({
   const queryKey = `chat:${chatId}`;
   const addKey = `chat:${chatId}:messages`;
   const updateKey = `chat:${chatId}:messages:update`;
+  const [isMounted, setIsmounted] = useState(false);
+
+  useEffect(() => {
+    setIsmounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
 
   useChatSocket({ queryKey, addKey, updateKey });
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =

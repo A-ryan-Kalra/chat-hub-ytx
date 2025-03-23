@@ -29,8 +29,10 @@ function ServerSearch({ data }: ServerSearchProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const params = useParams();
+  const [isMounted, setIsmounted] = useState(false);
 
   useEffect(() => {
+    setIsmounted(true);
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
@@ -41,6 +43,10 @@ function ServerSearch({ data }: ServerSearchProps) {
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
   }, []);
+
+  if (!isMounted) {
+    return null;
+  }
 
   const onClick = ({
     id,
