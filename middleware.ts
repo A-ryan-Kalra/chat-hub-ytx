@@ -1,4 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 const isPublicRoute = createRouteMatcher([
   "/sign-in(.*)",
@@ -8,7 +9,26 @@ const isPublicRoute = createRouteMatcher([
 
 export default clerkMiddleware(async (auth, request) => {
   if (!isPublicRoute(request)) {
-    await auth.protect();
+    const verification = await auth.protect();
+
+    if (request.nextUrl.pathname.includes("invite")) {
+      new Response(null, {
+        status: 302,
+        headers: {
+          Location: request.nextUrl.pathname,
+        },
+      });
+      return;
+    }
+
+    if (!verification) {
+      return new Response(null, {
+        status: 302,
+        headers: {
+          Location: "/sign-in",
+        },
+      });
+    }
   }
 });
 
