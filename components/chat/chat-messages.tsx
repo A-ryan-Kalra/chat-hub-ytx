@@ -88,7 +88,7 @@ function ChatMessages({
       </div>
     );
   }
-  // console.log(data);
+  console.log(hasNextPage);
   return (
     <div
       ref={chatRef}
