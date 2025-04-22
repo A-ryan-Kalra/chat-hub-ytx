@@ -1,3 +1,4 @@
+"use client";
 import { useSocket } from "@/components/providers/socket-provider";
 import { useInfiniteQuery } from "@tanstack/react-query";
 

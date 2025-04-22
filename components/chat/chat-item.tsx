@@ -101,6 +101,8 @@ function ChatItem({
   useEffect(() => {
     const handleKeyDown = (event: any) => {
       if (event.key === "ESCAPE" || event.keyCode === 27) {
+        console.log("wo");
+
         setIsEditing(false);
       }
     };
